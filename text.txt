@@ -1,0 +1,37 @@
+Nombre = input('¿Cómo te llamas?\n')
+if Nombre in clientes.keys():
+    i = 1
+    NIP = ''
+    while NIP != clientes[Nombre]['NIP']:
+        if i == 4:
+            print('Cuenta bloqueada. Ya no tienes más intentos.')
+            break
+        else:
+            NIP = input('Hola %s introduce tu NIP:\n' % Nombre)
+        i += 1
+    
+    if NIP == clientes[Nombre]['NIP']:
+        if clientes[Nombre]['Retiros'] == 0:
+            print('Ya no tienes retiros :(')
+        else:
+            retiro_valido = False
+            while retiro_valido == False:
+                retiro = input('¿Cuánto deseas retirar?\n')
+                try:
+                    retiro = int(retiro)
+                    if retiro > 8000:
+                        print('No puedes retirar tanto')
+                    elif retiro % 50 != 0:
+                        print('Sólo tengo billetes en montos de $50')
+                    else:
+                        retiro_valido = True
+                except:
+                    print('Tienes que darme un número entero')
+            clientes[Nombre]['Saldo'] -= retiro * (1 + 0.04 * clientes[Nombre]['T_credito'])
+            print(Nombre + " te quedan: $" + str(clientes[Nombre]['Saldo']))
+            print("Ten un buen día")
+            clientes[Nombre]['Retiros'] -= 1
+
+else:
+    print('No eres cliente de mi banco.')
+        
